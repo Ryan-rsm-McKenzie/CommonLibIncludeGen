@@ -1,2 +1,2 @@
 # CommonLibIncludeGen
- A too to auto generate Skyrim.h for CommonLib
+ A tool to auto generate Skyrim.h for CommonLib
