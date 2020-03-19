@@ -6,55 +6,13 @@
 #include <system_error>
 #include <vector>
 
-#include <string.h>
-
 
 class PathSorter
 {
 public:
 	bool operator()(const std::filesystem::path& a_lhs, std::filesystem::path& a_rhs) const
 	{
-		auto lhsNum = GetNumElements(a_lhs);
-		auto rhsNum = GetNumElements(a_rhs);
-		if (lhsNum != rhsNum) {
-			return lhsNum < rhsNum;
-		}
-
-		auto lhsIt = a_lhs.begin();
-		auto rhsIt = a_rhs.begin();
-		while (lhsIt != a_lhs.end() && rhsIt != a_rhs.end()) {
-			auto comp = CICompare(lhsIt->c_str(), rhsIt->c_str());
-			if (comp != 0) {
-				return comp < 0;
-			}
-
-			lhsIt++;
-			rhsIt++;
-		}
-
-		return false;
-	}
-
-private:
-	std::size_t GetNumElements(const std::filesystem::path& a_path) const
-	{
-		std::size_t num = 0;
-		for ([[maybe_unused]] auto& elem : a_path) {
-			++num;
-		}
-		return num;
-	}
-
-
-	int CICompare(const char* a_lhs, const char* a_rhs) const
-	{
-		return _stricmp(a_lhs, a_rhs);
-	}
-
-
-	int CICompare(const wchar_t* a_lhs, const wchar_t* a_rhs) const
-	{
-		return _wcsicmp(a_lhs, a_rhs);
+		return a_lhs.generic_string() < a_rhs.generic_string();
 	}
 };
 
@@ -154,7 +112,7 @@ int main([[maybe_unused]] int a_argc, [[maybe_unused]] char* a_argv[])
 	outFile << "#pragma once" << '\n';
 	outFile << '\n';
 	for (auto& file : files) {
-		outFile << "#include \"" << file.generic_u8string() << '\"' << '\n';
+		outFile << "#include \"" << file.generic_string() << '\"' << '\n';
 	}
 
 	return EXIT_SUCCESS;
