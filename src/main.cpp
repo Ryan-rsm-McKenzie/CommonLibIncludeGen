@@ -111,6 +111,8 @@ int main([[maybe_unused]] int a_argc, [[maybe_unused]] char* a_argv[])
 
 	outFile << "#pragma once" << '\n';
 	outFile << '\n';
+	outFile << "#include \"SKSE/Impl/PCH.h\"" << '\n';
+	outFile << '\n';
 	for (auto& file : files) {
 		outFile << "#include \"" << file.generic_string() << '\"' << '\n';
 	}
